@@ -6,5 +6,5 @@ pool:
   name: Default
   demands: agent.name -equals agente
 steps:
-- script: eco Hello, world!
+- script: echo Hello, world!
   displayName: 'Run on line Script'
