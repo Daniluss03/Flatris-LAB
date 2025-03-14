@@ -30,6 +30,25 @@ stages:
               restoreKeys: |
                 npm | $(Agent.OS)
 
-       
+  - stage: Build
+    displayName: "Building the app"
+    dependsOn: Prebuild
+    jobs:
+      - job: Build_React
+        displayName: "Build React App"
+        steps:
+          - script: npm run build 
+            displayName: "Run Build"
+            
+          - task: PublishBuildArtifacts@1
+            displayName: "Publish Build Artifacts"
+            inputs:
+              pathtoPublish: "build"
+              artifactName: "react-app"
+
+
+
+
+
 
 
