@@ -5,33 +5,6 @@ trigger:
 pool:
   name: Default
   demands: agent.name -equals agente
-
 steps:
-# 1️⃣ Limpieza de la carpeta temporal para evitar conflictos en la instalación
-- script: |
-    echo "Cleaning agent temp directory..."
-    rm -rf $(Agent.TempDirectory)/*
-  displayName: "Clean temp directory"
-
-# 2️⃣ Instalación de Node.js con una versión específica
-- task: NodeTool@0
-  inputs:
-    versionSpec: '20.19.0'
-  displayName: 'Install Node.js 20.19.0'
-
-# 3️⃣ Verificar que Node.js se instaló correctamente
-- script: node -v
-  displayName: "Check Node.js version"
-
-# 4️⃣ Instalar dependencias y compilar el proyecto
-- script: |
-    npm install
-    npm run build
-  displayName: 'npm install and build'
-
-# 5️⃣ Opcional: Guardar artefactos de la compilación para el despliegue
-- task: PublishBuildArtifacts@1
-  inputs:
-    pathToPublish: 'build'
-    artifactName: 'drop'
-  displayName: "Publish build artifacts"
+- script: eco Hello, world!
+  displayName: 'Run on line Script'
