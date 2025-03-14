@@ -19,7 +19,7 @@ stages:
           - script: npm install
             displayName: "Install Dependencies"
           
-          - script: mkdir -p $(Pipeline.Workspace)/.npm
+          - script: if not exist "$(Pipeline.Workspace)\.npm" mkdir "$(Pipeline.Workspace)\.npm"
             displayName: "Ensure npm cache directory exists"
 
           - task: Cache@2
