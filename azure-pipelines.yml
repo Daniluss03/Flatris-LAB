@@ -5,6 +5,27 @@ trigger:
 pool:
   name: Default
   demands: agent.name -equals agente
-steps:
-- script: echo Hello, world!
-  displayName: 'Run on line Script'
+
+stages:
+  - stage: Prebuild
+    displayName: "Prepare Environment"
+    jobs:
+      - job: Setup_Node
+        displayName: "Setup Node and install dependencies"
+        steps:
+          - script: node -v
+            displayName: "Check Node.js Version"
+          
+
+          - task: Cache@2
+            displayName: "Cache npm dependencies"
+            inputs:
+              key: "npm | $(Agent.OS) | package-lock.json"
+              path: "$(Pipeline.Workspace)/.npm"
+              restoreKeys: |
+                npm | $(Agent.OS)
+
+          - script: npm install
+            displayName: "Install Dependencies"
+
+
