@@ -18,7 +18,10 @@ stages:
           
           - script: npm install
             displayName: "Install Dependencies"
-            
+          
+          - script: mkdir -p $(Pipeline.Workspace)/.npm
+            displayName: "Ensure npm cache directory exists"
+
           - task: Cache@2
             displayName: "Cache npm dependencies"
             inputs:
