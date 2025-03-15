@@ -1,5 +1,5 @@
 trigger:
-- master
+  - main  
 
 pool:
   name: Default
@@ -10,35 +10,36 @@ stages:
     displayName: "Prepare Environment"
     jobs:
       - job: Setup_Node
-        displayName: "Setup Node and install dependencies"
+        displayName: "Setup Node and Install Dependencies"
         steps:
           - script: node -v
             displayName: "Check Node.js Version"
-          
-          - script: npm install
-            displayName: "Install Dependencies"
-          
-          - script: npm list next
-            displayName: "Check if Next.js is installed"
+
+          - script: |
+              cd frontend
+              npm ci
+            displayName: "Install Dependencies in frontend"
+
 
   - stage: Build
-    displayName: "Building the app"
+    displayName: "Building the Angular App"
     dependsOn: Prebuild
     jobs:
-      - job: Build_Next
-        displayName: "Build Next.js App"
+      - job: Build_Angular
+        displayName: "Build Angular App"
         steps:
-          - script: npm ci
-            displayName: "Ensure Dependencies Installed"
-
-          - script: ls -la
+          - script: |
+              cd frontend
+              ls -la
             displayName: "Check Directory Contents"
 
-          - script: npm run build
-            displayName: "Run Next.js Build"
+          - script: |
+              cd frontend
+              npm run build -- --configuration=production
+            displayName: "Run Angular Build"
 
           - task: PublishBuildArtifacts@1
             displayName: "Publish Build Artifacts"
             inputs:
-              pathtoPublish: ".next"
-              artifactName: "flatris-app"
+              pathtoPublish: "frontend/dist"
+              artifactName: "angular-app"
