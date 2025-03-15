@@ -25,28 +25,30 @@ stages:
           - task: Cache@2
             displayName: "Cache npm dependencies"
             inputs:
-              key: "npm | $(Agent.OS) | package.json"
+              key: "npm | $(Agent.OS) | package-lock.json"
               path: "$(Pipeline.Workspace)/.npm"
               restoreKeys: |
                 npm | $(Agent.OS)
+
 
   - stage: Build
     displayName: "Building the app"
     dependsOn: Prebuild
     jobs:
-      - job: Build_React
-        displayName: "Build React App"
+      - job: Build_Next
+        displayName: "Build Next.js App"
         steps:
-          - script: npm run build 
-            displayName: "Run Build"
-            
+          - script: ls -la
+            displayName: "Check Directory Contents"
+
+          - script: npm run build
+            displayName: "Run Next.js Build"
+
           - task: PublishBuildArtifacts@1
             displayName: "Publish Build Artifacts"
             inputs:
-              pathtoPublish: "build"
-              artifactName: "react-app"
-
-
+              pathtoPublish: ".next"
+              artifactName: "flatris-app"
 
 
 
